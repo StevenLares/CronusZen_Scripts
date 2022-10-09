@@ -1,0 +1,118 @@
+/*
+This script seperates dodging from crouching in Star Wars Battlefront 2 - PS4 when playing on kbm.
+It adds the ability to sprint by double tapping W in quick succession
+It also allows you to weapon swap through scroll wheel up / down
+*/
+
+
+define timeBetweenDodgePresses = 10;
+define timeReqToCrouch = 10;
+define timeBetweenWTaps = 50;
+define timeBeforeSprint = 50;
+
+
+define DODGE_KEY = KEY_LEFTSHIFT ;
+
+
+
+//should add the weapon swap ability to both directions of the scroll wheel.
+//edit these names if they are incorrect
+//TODO:
+/*
+remap wheel_plus  -> PS4_TRIANGLE;
+remap wheel_minus  -> PS4_TRIANGLE;
+*/
+
+
+int sprintToggle = 0;
+
+
+main {
+	
+
+/*
+Change the key bindings in the if statements below if you would like to customize weapon keybindings.
+*/
+
+
+
+//For the "tap WW twice to run" logic:
+//you could have an if (event_press)... logic statement that automatically runs a corresponding combo.
+//that combo could start with a wait function, that then checks if you pressed the W button in that time.
+//for help with the exact code, you should reference the controller functions in the cronus zen documentation.
+
+//this code runs the combo for WW twice to sprint
+
+if (event_press(KEY_W && sprintToggle == 0)){
+	if (event_release(KEY_W) && get_ptime(KEY_W) <= timeBetweenWTaps) {
+		if (event_release(KEY_W) && get_ptime(KEY_W) <= timeBeforeSprint){
+			combo_run(doubleTapWtoSprint);
+		}
+	}
+}
+
+
+
+
+/*
+	if(auto_spot){
+		if((event_press(XB1_RT)) && !combo_running(AUTO_SPOT)) combo_run(AUTO_SPOT);
+	}
+	
+	if(turbo_melee){
+		if(get_val(XB1_RS)) combo_run(TURBO_MELEE);
+	}
+	
+	if(rapid_fire){
+		if(get_val(XB1_RT)) combo_run(RAPIDFIRE);
+		if(event_release(XB1_RT)) combo_stop(RAPIDFIRE);
+	}
+	
+	if(semi_auto){
+		if(get_val(XB1_RT)){
+		if((get_ptime(XB1_RT)) > 50) set_val(XB1_RT,0);
+		}
+	}
+		
+	if(binary_trigger){
+		if(get_val(XB1_RT)){
+		if((get_ptime(XB1_RT)) > 50) set_val(XB1_RT,0);
+		}
+		if(event_release(XB1_RT)) combo_run(RAPIDFIRE);
+	}
+	
+	if(auto_movement){
+		set_val(XB1_LY,-100);
+		set_val(XB1_LS,100);
+		if(event_press(XB1_LY)) auto_movement = FALSE;
+	}
+
+*/
+
+
+
+
+}
+
+
+/*
+Below is the logic to swap weapons. Do not adjust the last_pressed variable, consider it to be a form of ID
+*/
+
+combo doubleTapWtoSprint {
+	sprintToggle = 1;
+	set_val(PS4_L3, 100);
+	wait(40);
+	set_val(PS4_L3, 0);
+	sprintToggle = 0;
+	wait(40);
+	}
+
+
+
+
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

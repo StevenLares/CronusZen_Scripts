@@ -1,0 +1,347 @@
+/*
+This script adds number bindings to DOOM Eternal PS4, when playing on keyboard and mouse
+*/
+
+//how long the weapon wheel button will be held for. Constant among all weapons.
+//70 ms is the minimum that Doom Eternal's weapon wheel wait time can be set to.
+//As such, setting this value to 70 ms both here and in-game provides the fastest weapon swap speed possible. 
+//However, due to differences (in the scale of ms) in how Cronus counts time vs how Doom Eternal counts it, 
+//you may need to set this higher. Setting it at 70 can cause your in-game aim to jolt in the direction of the weapon in the weapon wheel, due to these counting differences.
+//95 ms seems to be the sweet spot between high speed weapon swapping while also keeping your aim steady.
+define weaponWheelPullUpTime = 10;
+
+//how long before the right analog stick is centered. Constant among all weapons.
+//I have found 50 ms to be the most stable amount of time to wait before centering. 45 ms is the absolute lowest it should go.
+define timeBeforeCenteringAnalog = 30;
+
+
+/*
+The below definitions are the X, Y coordinates for each weapon in the weapon wheel.
+It is moving through the weapon wheel clockwise.
+Change these if you can customize your weapon wheel in game. Can't change these in Shadow Warrior 1
+Note that negative Y values corresponds to moving the right analog stick up, and postive Y corresponds to moving the right stick down.
+*/
+
+
+define katana_X = 0;
+define katana_Y = 0;
+
+define pistol_X = 0;
+define pistol_Y = -100;
+
+define smg_X = 100;
+define smg_Y = -100;
+
+define crossbow_X = 100;
+define crossbow_Y = 0;
+
+define weapon5_X = 100;
+define weapon5_Y = 100;
+
+define weapon6_X = 0;
+define weapon6_Y = 100;
+
+define weapon7_X = -100;
+define weapon7_Y = 0;
+
+define weapon8_X = -100;
+define weapon8_Y = 100;
+
+define weapon9_X = -100;
+define weapon9_Y = -100;
+
+
+
+
+//this will be used to make sure that you are not able to hold down a numbind button, you can only tap it.
+//Also, this can help prevent 'fat-finger' presses. E.G., you chose numbind 2, wanted to switch to 3, but accidentally tapped 2 again.
+//Consider this to be the "ID" of each weapon in the code. Do not change this value in the other instances where it appears.
+int last_pressed = -1;
+
+
+main {
+	
+//pressing L1 (default weapon wheel button) resets the last_pressed variable.	
+//This allows you to swap back to your previous weapon if you used the weapon wheel again without issue.
+if (get_val(PS4_L1)) {
+	last_pressed = -1;
+	} 
+
+
+if (get_val(PS4_LEFT))  {
+	last_pressed = 1;
+	} 
+
+	
+/*
+Change the key bindings in the if statements below if you would like to customize weapon keybindings.
+*/
+
+/*
+
+if (get_keyboard(KEY_1))  {
+	if (!combo_suspended(Katana) && last_pressed != 1) {
+		combo_run(Katana);
+	}
+	else if (combo_suspended(Katana) && last_pressed != 1){ //
+		combo_resume(Katana);
+	}	
+	//combo_run(Katana);
+} 
+*/
+
+if (get_keyboard(KEY_2))  {
+	
+	if (!combo_suspended(Pistol) && last_pressed != 0) {
+		combo_run(Pistol);
+	}
+	else if (combo_suspended(Pistol) && last_pressed != 0){ //
+		combo_resume(Pistol);
+	}
+	//combo_run(Pistol);
+} 
+
+
+if (get_keyboard(KEY_3))  {
+	if (!combo_suspended(SMG) && last_pressed != 2) {
+		combo_run(SMG);
+	}
+	else if (combo_suspended(SMG) && last_pressed != 2){ //
+		combo_resume(SMG);
+	}	
+	//combo_run(SMG);
+} 
+
+if (get_keyboard(KEY_4))  {
+	if (!combo_suspended(Crossbow) && last_pressed != 3) {
+		combo_run(Crossbow);
+	}
+	else if (combo_suspended(Crossbow) && last_pressed != 3){ //
+		combo_resume(Crossbow);
+	}	
+	//combo_run(Crossbow);
+} 
+
+
+if (get_keyboard(KEY_V))  {
+	if (!combo_suspended(Weapon5) && last_pressed != 4) {
+		combo_run(Weapon5);
+	}
+	else if (combo_suspended(Weapon5) && last_pressed != 4){ //
+		combo_resume(Weapon5);
+	}	
+	//combo_run(Weapon5);
+} 
+
+
+if (get_keyboard(KEY_C))  {
+	if (!combo_suspended(Weapon6) && last_pressed != 5) {
+		combo_run(Weapon6);
+	}
+	else if (combo_suspended(Weapon6) && last_pressed != 5){ //
+		combo_resume(Weapon6);
+	}	
+	//combo_run(Weapon6);
+} 
+	
+if (get_keyboard(KEY_Z))  {
+	if (!combo_suspended(Weapon7) && last_pressed != 6) {
+		combo_run(Weapon7);
+	}
+	else if (combo_suspended(Weapon7) && last_pressed != 6){ //
+		combo_resume(Weapon7);
+	}	
+	//combo_run(Weapon7);
+} 
+
+	
+if (get_keyboard(KEY_X))  { //
+	if (!combo_suspended(Weapon8) && last_pressed != 7) {
+		combo_run(Weapon8);
+	}
+	else if (combo_suspended(Weapon8) && last_pressed != 7){ //
+		combo_resume(Weapon8);
+	}	
+	//combo_run(Weapon8);
+} 
+	
+if (get_keyboard(KEY_GRAVE))  {
+	if (!combo_suspended(Weapon9) && last_pressed != 8) {
+		combo_run(Weapon9);
+	}
+	else if (combo_suspended(Weapon9) && last_pressed != 8){ //
+		combo_resume(Weapon9);
+	}
+	//combo_run(Weapon9);
+} 
+	
+}
+
+
+/*
+Below is the logic to swap weapons. Do not adjust the last_pressed variable, consider it to be a form of ID
+*/
+
+combo Pistol {
+	last_pressed = 0;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, pistol_X); //set angle here
+	set_val(PS4_RY, pistol_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Pistol);
+	
+}
+
+
+
+combo Katana {
+	last_pressed = 1;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, katana_X); //set angle here
+	set_val(PS4_RY, katana_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Katana);
+	
+}
+
+
+
+combo SMG {
+	last_pressed = 2;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, smg_X); //set angle here
+	set_val(PS4_RY, smg_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(SMG);
+	
+}
+
+
+
+combo Crossbow {
+	last_pressed = 3;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, crossbow_X); //set angle here
+	set_val(PS4_RY, crossbow_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Crossbow);
+		
+}
+
+
+combo Weapon5 {
+	last_pressed = 4;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, weapon5_X); //set angle here
+	set_val(PS4_RY, weapon5_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Weapon5);
+		
+}
+
+
+
+
+combo Weapon6 {
+	last_pressed = 5;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, weapon6_X); //set angle here
+	set_val(PS4_RY, weapon6_Y); //set angle here	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Weapon6);
+	
+}
+
+
+
+combo Weapon7 {
+	last_pressed = 6;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, weapon7_X); //set angle here
+	set_val(PS4_RY, weapon7_Y); //set angle here	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Weapon7);
+	
+}
+
+
+
+combo Weapon8 {
+	last_pressed = 7;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, weapon8_X); //set angle here
+	set_val(PS4_RY, weapon8_Y); //set angle here	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Weapon8);
+	
+}
+
+combo Weapon9 {
+	last_pressed = 8;
+	set_val(PS4_L1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_L1, 100);
+	set_val(PS4_RX, weapon9_X); //set angle here
+	set_val(PS4_RY, weapon9_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_L1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Weapon9);
+	
+}
+
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

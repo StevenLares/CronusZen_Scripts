@@ -1,0 +1,196 @@
+/*
+This script adds number bindings to Outer Worlds PS4, when playing on keyboard and mouse
+*/
+
+//how long the weapon wheel button will be held for. Constant among all weapons.
+//Play around with this until its small enough to be responsive in game without glitches
+define weaponWheelPullUpTime = 100;
+
+//how long before the right analog stick is centered. Constant among all weapons.
+//Play around with this until its small enough to be responsive in game without glitches
+define timeBeforeCenteringAnalog = 30;
+
+
+/*
+The below definitions are the X, Y coordinates for each weapon in the weapon wheel.
+Note that negative Y values corresponds to moving the right analog stick up, and postive Y corresponds to moving the right stick down.
+*/
+
+
+define weapon1_X = -100;
+define weapon1_Y = 0;
+
+define weapon2_X = -100;
+define weapon2_Y = -100;
+
+define weapon3_X = 100;
+define weapon3_Y = -100;
+
+define weapon4_X = 100;
+define weapon4_Y = 0;
+
+
+
+
+//this will be used to make sure that you are not able to hold down a numbind button, you can only tap it.
+//Also, this can help prevent 'fat-finger' presses. E.G., you chose numbind 2, wanted to switch to 3, but accidentally tapped 2 again.
+//Consider this to be the "ID" of each weapon in the code. Do not change this value in the other instances where it appears.
+int last_pressed = -1;
+
+
+main {
+	
+//pressing triangle (default weapon wheel button) resets the last_pressed variable.	
+//This allows you to swap back to your previous weapon if you used the weapon wheel again without issue.
+if (get_val(PS4_TRIANGLE)) {
+	last_pressed = -1;
+	} 
+
+	
+/*
+Change the key bindings in the if statements below if you would like to customize weapon keybindings.
+If you do change the bindings, note that there is no need to change the combo names or which combo's are called in the if statements.
+*/
+
+
+if (get_keyboard(KEY_1))  {
+	
+	if (!combo_suspended(Weapon1) && last_pressed != 1) {
+		combo_run(Weapon1);
+	}
+	else if (combo_suspended(Weapon1) && last_pressed != 1){ //
+		combo_resume(Weapon1);
+	}
+	//combo_run(Weapon1);
+} 
+
+
+if (get_keyboard(KEY_2))  {
+	if (!combo_suspended(Weapon2) && last_pressed != 2) {
+		combo_run(Weapon2);
+	}
+	else if (combo_suspended(Weapon2) && last_pressed != 2){ //
+		combo_resume(Weapon2);
+	}	
+	//combo_run(Weapon2);
+} 
+
+if (get_keyboard(KEY_3))  {
+	if (!combo_suspended(Weapon3) && last_pressed != 3) {
+		combo_run(Weapon3);
+	}
+	else if (combo_suspended(Weapon3) && last_pressed != 3){ //
+		combo_resume(Weapon3);
+	}	
+	//combo_run(Weapon3);
+} 
+
+
+if (get_keyboard(KEY_4))  {
+	if (!combo_suspended(Weapon4) && last_pressed != 4) {
+		combo_run(Weapon4);
+	}
+	else if (combo_suspended(Weapon4) && last_pressed != 4){ //
+		combo_resume(Weapon4);
+	}	
+	//combo_run(Weapon4);
+	} 
+
+}
+
+
+/*
+Below is the logic to swap weapons. Do not adjust the last_pressed variable, consider it to be a form of ID
+*/
+
+combo Weapon1 {
+	last_pressed = 1;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon1_X); //set angle here
+	set_val(PS4_LY, weapon1_Y); //set angle here
+	set_val(PS4_CROSS, 100); //confirm weapon
+	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_TRIANGLE, 0);
+	set_val(PS4_LX, 0);
+	set_val(PS4_LY, 0);
+	set_val(PS4_CROSS, 0); //weapon was confirmed
+	
+	combo_stop(Weapon1);
+	
+}
+
+
+
+combo Weapon2 {
+	last_pressed = 2;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon2_X); //set angle here
+	set_val(PS4_LY, weapon2_Y); //set angle here
+	set_val(PS4_CROSS, 100); //confirm weapon
+	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_TRIANGLE, 0);
+	set_val(PS4_LX, 0);
+	set_val(PS4_LY, 0);	
+	set_val(PS4_CROSS, 0); //weapon was confirmed
+	
+	combo_stop(Weapon2);
+	
+}
+
+
+
+combo Weapon3 {
+	last_pressed = 3;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon3_X); //set angle here
+	set_val(PS4_LY, weapon3_Y); //set angle here
+	set_val(PS4_CROSS, 100); //confirm weapon
+	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_TRIANGLE, 0);
+	set_val(PS4_LX, 0);
+	set_val(PS4_LY, 0);	
+	set_val(PS4_CROSS, 0); //weapon was confirmed
+	
+	combo_stop(Weapon3);
+	
+}
+
+
+
+combo Weapon4 {
+	last_pressed = 4;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon4_X); //set angle here
+	set_val(PS4_LY, weapon4_Y); //set angle here
+	set_val(PS4_CROSS, 100); //confirm weapon
+	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_TRIANGLE, 0);
+	set_val(PS4_LX, 0);
+	set_val(PS4_LY, 0);
+	set_val(PS4_CROSS, 0); //weapon was confirmed
+	
+	combo_stop(Weapon4);
+		
+}
+
+
+	
+
+
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

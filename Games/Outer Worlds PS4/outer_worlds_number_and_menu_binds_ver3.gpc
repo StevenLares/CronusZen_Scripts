@@ -1,0 +1,538 @@
+/*
+This script adds number bindings to Outer Worlds PS4, when playing on keyboard and mouse
+It also adds shortcuts to the Map, Character, Journal, and Companion #1 and #2 screens
+For the menu shortcuts to work consistently, turn OFF the in-game setting that reminds you of unspent skill/perk points.
+*/
+
+
+//-----------------------------WEAPON NUMBER BINDING CONSTANT DEFINITION(S) BELOW-----------------------------
+
+
+//how long the weapon wheel button will be held for. Constant among all weapons.
+//Play around with this until its small enough to be responsive in game without glitches
+//450 seems good
+define weaponWheelPullUpTime = 450;
+
+//how long to hold the analog stick to pick the weapon. Constant among all weapons.
+//Play around with this until its small enough to be responsive in game without glitches
+//don't go less than 75
+define timeToHoldAnalogStick = 100;
+
+//How long to hold down the X button while confirming weapon. Can't be instant in this game for some reason.
+//Constant among all weapons
+//50 seems good
+define timeToHoldCross = 50;
+
+/*
+The below definitions are the X, Y coordinates for each weapon in the weapon wheel.
+Note that negative Y values corresponds to moving the right analog stick up, and postive Y corresponds to moving the right stick down.
+*/
+
+
+define weapon1_X = -100;
+define weapon1_Y = 0;
+
+define weapon2_X = -50;
+define weapon2_Y = -100;
+
+define weapon3_X = 50;
+define weapon3_Y = -100;
+
+define weapon4_X = 100;
+define weapon4_Y = 0;
+
+
+
+
+//-----------------------------MENU KEY BINDING CONSTANT DEFINITION(S) BELOW-----------------------------
+
+//Amount of time to press the touchpad button, to open up the menu.
+//TODO: will start with 50 ms, experiment with this
+define menuPullUpTime = 50;
+
+
+//Amount of time in-between each R1 or L1 button press
+//TODO: will start with 25 ms, experiment with this
+define timeBetweenMenuSwap = 25;
+
+
+//Amount of time to hold R1 or L1 button press
+//TODO: will start with 25 ms, experiment with this
+define timeToHold_L1orR1 = 50;
+
+
+
+//-----------------------------WEAPON NUMBER BINDING VARIABLE DEFINITION(S) BELOW-----------------------------
+
+//this will be used to make sure that you are not able to hold down a numbind button, you can only tap it.
+//Also, this can help prevent 'fat-finger' presses. E.G., you chose numbind 2, wanted to switch to 3, but accidentally tapped 2 again.
+//Consider this to be the "ID" of each weapon in the code. Do not change this value in the other instances where it appears.
+int current_weapon_id = -1;
+
+
+
+//-----------------------------MENU KEY BINDING VARIABLE DEFINITION(S) BELOW-----------------------------
+
+//this will be used to make sure that you are not able to hold down a numbind button, you can only tap it.
+//Also, this can help prevent 'fat-finger' presses. E.G., you chose numbind J, wanted to switch to K, but accidentally tapped J again.
+//Consider this to be the "ID" of each menu shortcut in the code. Do not change this value in the other instances where it appears.
+int current_menu_id = -1;
+
+
+main {
+	
+	
+//-----------------------------WEAPON NUMBER BINDING MAIN LOGIC BELOW-----------------------------
+	
+	
+	
+//pressing triangle (default weapon wheel button) resets the current_weapon_id variable.	
+//This allows you to swap back to your previous weapon if you used the weapon wheel again without issue.
+if (get_val(PS4_TRIANGLE)) {
+	current_weapon_id = -1;
+	} 
+
+	
+/*
+Change the key bindings in the if statements below if you would like to customize weapon keybindings.
+If you do change the bindings, note that there is no need to change the combo names or which combo's are called in the if statements.
+*/
+
+
+if (get_keyboard(KEY_1))  {
+	
+	if (!combo_suspended(Weapon1) && current_weapon_id != 1) {
+		combo_run(Weapon1);
+	}
+	else if (combo_suspended(Weapon1) && current_weapon_id != 1){ //
+		combo_resume(Weapon1);
+	}
+	//combo_run(Weapon1);
+} 
+
+
+if (get_keyboard(KEY_2))  {
+	if (!combo_suspended(Weapon2) && current_weapon_id != 2) {
+		combo_run(Weapon2);
+	}
+	else if (combo_suspended(Weapon2) && current_weapon_id != 2){ //
+		combo_resume(Weapon2);
+	}	
+	//combo_run(Weapon2);
+} 
+
+if (get_keyboard(KEY_3))  {
+	if (!combo_suspended(Weapon3) && current_weapon_id != 3) {
+		combo_run(Weapon3);
+	}
+	else if (combo_suspended(Weapon3) && current_weapon_id != 3){ //
+		combo_resume(Weapon3);
+	}	
+	//combo_run(Weapon3);
+} 
+
+
+if (get_keyboard(KEY_4))  {
+	if (!combo_suspended(Weapon4) && current_weapon_id != 4) {
+		combo_run(Weapon4);
+	}
+	else if (combo_suspended(Weapon4) && current_weapon_id != 4){ //
+		combo_resume(Weapon4);
+	}	
+	//combo_run(Weapon4);
+	} 
+
+	
+//-----------------------------MENU KEY BINDING MAIN LOGIC BELOW-----------------------------
+
+
+
+//pressing triangle (default weapon wheel button) resets the current_weapon_id variable.	
+//This allows you to swap back to your previous weapon if you used the weapon wheel again without issue.
+if (get_val(PS4_TOUCH) | get_val(PS4_CIRCLE)) {
+	current_menu_id = -1;
+	} 
+
+
+
+/*
+Change the key bindings in the if statements below if you would like to customize menu shortcut keybindings.
+If you do change the bindings, note that there is no need to change the combo names or which combo's are called in the if statements.
+*/
+//TODO: Maybe add code that allows you to use shortcuts when you are already inside the menu
+
+
+if (get_keyboard(KEY_M))  { //map shortcut
+	
+	if (!combo_suspended(Map_Shortcut) && current_menu_id != 1) {
+		combo_run(Map_Shortcut);
+	}
+	else if (combo_suspended(Map_Shortcut) && current_menu_id != 1){ //
+		combo_resume(Map_Shortcut);
+	}
+	//combo_run(Map_Shortcut);
+} 
+
+
+if (get_keyboard(KEY_J))  { //journal shortcut
+	
+	if (!combo_suspended(Journal_Shortcut) && current_menu_id != 2) {
+		combo_run(Journal_Shortcut);
+	}
+	else if (combo_suspended(Journal_Shortcut) && current_menu_id != 2){ //
+		combo_resume(Journal_Shortcut);
+	}
+	//combo_run(Journal_Shortcut);
+} 
+
+
+if (get_keyboard(KEY_K))  { //character shortcut
+	
+	if (!combo_suspended(Character_Shortcut) && current_menu_id != 3) {
+		combo_run(Character_Shortcut);
+	}
+	else if (combo_suspended(Character_Shortcut) && current_menu_id != 3){ //
+		combo_resume(Character_Shortcut);
+	}
+	//combo_run(Character_Shortcut);
+} 
+
+if (get_keyboard(KEY_COMMA))  { //companion 1
+	
+	if (!combo_suspended(Companion1_Shortcut) && current_menu_id != 4) {
+		combo_run(Companion1_Shortcut);
+	}
+	else if (combo_suspended(Companion1_Shortcut) && current_menu_id != 4){ //
+		combo_resume(Companion1_Shortcut);
+	}
+	//combo_run(Companion1_Shortcut);
+} 
+
+if (get_keyboard(KEY_DOT))  { //companion 2
+	
+	if (!combo_suspended(Companion2_Shortcut) && current_menu_id != 5) {
+		combo_run(Companion2_Shortcut);
+	}
+	else if (combo_suspended(Companion2_Shortcut) && current_menu_id != 5){ //
+		combo_resume(Companion2_Shortcut);
+	}
+	//combo_run(Companion2_Shortcut);
+} 
+
+	
+	
+	
+}
+
+
+
+//-----------------------------WEAPON NUMBER BINDING COMBO LOGIC BELOW-----------------------------
+
+
+
+/*
+Below is the logic to swap weapons. Do not adjust the current_weapon_id variable, consider it to be a form of ID
+*/
+
+combo Weapon1 {
+	current_weapon_id = 1;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime); //weapon pull up time
+	
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon1_X); //set angle here
+	set_val(PS4_LY, weapon1_Y); //set angle here
+	
+	//maybe a timer for just the x y coordinates. Then, press X at the end?
+	
+	wait(timeToHoldAnalogStick); //time to hold the analog stick in place
+	set_val(PS4_LX, weapon1_X); //set angle here
+	set_val(PS4_LY, weapon1_Y); //set angle here
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	wait(timeToHoldCross);
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	
+	
+	combo_stop(Weapon1);
+	
+}
+
+
+
+combo Weapon2 {
+	current_weapon_id = 2;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime); //weapon pull up time
+	
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon2_X); //set angle here
+	set_val(PS4_LY, weapon2_Y); //set angle here
+	
+	//maybe a timer for just the x y coordinates. Then, press X at the end?
+	
+	wait(timeToHoldAnalogStick); //time to hold the analog stick in place
+	set_val(PS4_LX, weapon2_X); //set angle here
+	set_val(PS4_LY, weapon2_Y); //set angle here
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	wait(timeToHoldCross);
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	
+	combo_stop(Weapon2);
+	
+}
+
+
+
+combo Weapon3 {
+	current_weapon_id = 3;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime); //weapon pull up time
+	
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon3_X); //set angle here
+	set_val(PS4_LY, weapon3_Y); //set angle here
+	
+	//maybe a timer for just the x y coordinates. Then, press X at the end?
+	
+	wait(timeToHoldAnalogStick); //time to hold the analog stick in place
+	set_val(PS4_LX, weapon3_X); //set angle here
+	set_val(PS4_LY, weapon3_Y); //set angle here
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	
+	wait(timeToHoldCross);
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	combo_stop(Weapon3);
+	
+}
+
+
+
+combo Weapon4 {
+	current_weapon_id = 4;
+	set_val(PS4_TRIANGLE, 100);
+	wait(weaponWheelPullUpTime); //weapon pull up time
+	
+	set_val(PS4_TRIANGLE, 100);
+	set_val(PS4_LX, weapon4_X); //set angle here
+	set_val(PS4_LY, weapon4_Y); //set angle here
+	
+	//maybe a timer for just the x y coordinates. Then, press X at the end?
+	
+	wait(timeToHoldAnalogStick); //time to hold the analog stick in place
+	set_val(PS4_LX, weapon4_X); //set angle here
+	set_val(PS4_LY, weapon4_Y); //set angle here
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	wait(timeToHoldCross);
+	set_val(PS4_CROSS, 100); //weapon was confirmed
+	
+	combo_stop(Weapon4);
+		
+}
+
+
+
+//-----------------------------MENU KEY BINDING COMBO LOGIC BELOW-----------------------------
+
+
+
+
+/*
+Below is the logic for menu shorcuts. Do not adjust the current_menu_id variable, consider it to be a form of ID
+*/
+
+combo Map_Shortcut {
+	
+	current_menu_id = 1;
+	
+	
+	set_val(PS4_TOUCH, 100);	
+	wait(menuPullUpTime); 	
+
+	set_val(PS4_TOUCH, 100);	
+	wait(menuPullUpTime);
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	//second iteration
+	
+	wait(timeBetweenMenuSwap);
+
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	
+	combo_stop(Map_Shortcut);
+	
+}
+
+	
+combo Journal_Shortcut {
+	current_menu_id = 2;
+	set_val(PS4_TOUCH, 100);
+	
+	wait(menuPullUpTime); 	
+	set_val(PS4_TOUCH, 100);
+	
+	wait(menuPullUpTime);
+
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+
+	combo_stop(Journal_Shortcut);
+	
+}
+
+
+
+combo Character_Shortcut {
+	current_menu_id = 3;
+	set_val(PS4_TOUCH, 100);
+	
+	wait(menuPullUpTime); 	
+	set_val(PS4_TOUCH, 100);
+	
+	wait(menuPullUpTime);
+
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_L1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_L1, 100); 
+	
+
+	combo_stop(Character_Shortcut);
+	
+}
+
+
+
+combo Companion1_Shortcut {
+	
+	current_menu_id = 4;
+	
+	set_val(PS4_TOUCH, 100);	
+	wait(menuPullUpTime); 	
+
+	set_val(PS4_TOUCH, 100);	
+	wait(menuPullUpTime);
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	//second iteration
+	
+	wait(timeBetweenMenuSwap);
+
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+
+	//third iteration
+	
+	wait(timeBetweenMenuSwap);
+
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+
+
+
+	combo_stop(Companion1_Shortcut);
+	
+}
+
+
+
+combo Companion2_Shortcut {
+	
+	current_menu_id = 5;
+
+	set_val(PS4_TOUCH, 100);	
+	wait(menuPullUpTime); 	
+
+	set_val(PS4_TOUCH, 100);	
+	wait(menuPullUpTime);
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	//second iteration
+	
+	wait(timeBetweenMenuSwap);
+
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+
+	//third iteration
+	
+	wait(timeBetweenMenuSwap);
+
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+
+
+	//fourth iteration
+	
+	wait(timeBetweenMenuSwap);
+
+
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+	
+	wait(timeToHold_L1orR1);	
+	set_val(PS4_R1, 100); 
+
+
+
+	combo_stop(Companion2_Shortcut);
+	
+}
+
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

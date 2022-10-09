@@ -1,0 +1,67 @@
+define timeBetweenCirclePresses = 15;
+define timeBetweenCrossPresses = 15;
+
+int cross_button_delay;
+
+main {
+	
+
+
+
+
+	    
+
+
+//This gives the ability to dodge by press and holding a button.
+if(get_modifiers(MOD_LSHIFT)){	
+	combo_run(Rapid_Circle);
+}
+
+
+
+//This gives the ability to dodge by press and holding a button.
+if(get_modifiers(MOD_LCTRL)){	
+	combo_run(Rapid_Cross);
+}
+
+
+
+
+}
+
+
+
+combo Rapid_Circle {
+    set_val(PS4_CIRCLE, 100);
+    wait(timeBetweenCirclePresses);
+    set_val(PS4_CIRCLE, 0);
+    wait(timeBetweenCirclePresses);
+	
+ 
+}
+
+
+
+combo Rapid_Cross {
+    set_val(PS4_CROSS, 100);
+    cross_button_delay = random(-3, 7);
+    wait(timeBetweenCrossPresses + cross_button_delay);
+    set_val(PS4_CROSS, 0);
+    wait(timeBetweenCrossPresses + cross_button_delay);
+    cross_button_delay = 0;
+	
+ 
+}
+
+
+
+	
+
+
+
+
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

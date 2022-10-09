@@ -1,0 +1,288 @@
+/*
+This script adds number bindings to DOOM Eternal PS4, when playing on keyboard and mouse
+*/
+
+//how long the weapon wheel button will be held for. Constant among all weapons.
+//70 ms is the minimum that Doom Eternal's weapon wheel wait time can be set to.
+//As such, setting this value to 70 ms both here and in-game provides the fastest weapon swap speed possible. 
+//However, due to differences (in the scale of ms) in how Cronus counts time vs how Doom Eternal counts it, 
+//you may need to set this higher. Setting it at 70 can cause your in-game aim to jolt in the direction of the weapon in the weapon wheel, due to these counting differences.
+//95 ms seems to be the sweet spot between high speed weapon swapping while also keeping your aim steady.
+define weaponWheelPullUpTime = 95;
+
+//how long before the right analog stick is centered. Constant amoung all weapons.
+//I have found 50 ms to be the most stable amount of time to wait before centering. 45 ms is the absolute lowest it should go.
+define timeBeforeCenteringAnalog = 45;
+
+
+/*
+The below definitions are the X, Y coordinates for each weapon in the weapon wheel.
+Change these if you customize your weapon wheel in game.
+Note that negative Y values corresponds to moving the right analog stick up, and postive Y corresponds to moving the right stick down.
+*/
+
+define combat_Shotgun_X = 0;
+define combat_Shotgun_Y = -100;
+
+define heavy_Cannon_X = 100;
+define heavy_Cannon_Y = 0;
+
+define super_Shotgun_X = 100;
+define super_Shotgun_Y = -100;
+
+define plasma_Rifle_X = 0;
+define plasma_Rifle_Y = 100;
+
+define rocket_Launcher_X = -100;
+define rocket_Launcher_Y = 0;
+
+define chaingun_X = 100;
+define chaingun_Y = 100;
+
+define balista_X = -100;
+define balista_Y = 100;
+
+define bfg_X = -100;
+define bfg_Y = -100;
+
+
+
+
+//this will be used to make sure that you are not able to hold down a numbind button, you can only tap it.
+//Also, this can help prevent 'fat-finger' presses. E.G., you chose numbind 2, wanted to switch to 3, but accidentally tapped 2 again.
+int last_pressed = -1;
+
+
+main {
+	
+//pressing R1 (default weapon wheel button) resets the last_pressed variable.	
+//This allows you to swap back to your previous weapon if you used the weapon wheel again without issue.
+if (get_val(PS4_R1))  {
+	last_pressed = -1;
+	} 
+
+
+if (get_keyboard(KEY_GRAVE))  {
+	
+	if (!combo_suspended(Combat_Shotgun) && last_pressed != 0) {
+		combo_run(Combat_Shotgun);
+	}
+	else if (combo_suspended(Combat_Shotgun) && last_pressed != 0){ //
+		combo_resume(Combat_Shotgun);
+	}
+	//combo_run(Combat_Shotgun);
+} 
+
+if (get_keyboard(KEY_1))  {
+	if (!combo_suspended(Heavy_Cannon) && last_pressed != 1) {
+		combo_run(Heavy_Cannon);
+	}
+	else if (combo_suspended(Heavy_Cannon) && last_pressed != 1){ //
+		combo_resume(Heavy_Cannon);
+	}	
+	//combo_run(Heavy_Cannon);
+} 
+
+if (get_keyboard(KEY_2))  {
+	if (!combo_suspended(Super_Shotgun) && last_pressed != 2) {
+		combo_run(Super_Shotgun);
+	}
+	else if (combo_suspended(Super_Shotgun) && last_pressed != 2){ //
+		combo_resume(Super_Shotgun);
+	}	
+	//combo_run(Super_Shotgun);
+} 
+
+if (get_keyboard(KEY_3))  {
+	if (!combo_suspended(Plasma_Rifle) && last_pressed != 3) {
+		combo_run(Plasma_Rifle);
+	}
+	else if (combo_suspended(Plasma_Rifle) && last_pressed != 3){ //
+		combo_resume(Plasma_Rifle);
+	}	
+	//combo_run(Plasma_Rifle);
+} 
+	
+if (get_keyboard(KEY_4))  {
+	if (!combo_suspended(Rocket_Launcher) && last_pressed != 4) {
+		combo_run(Rocket_Launcher);
+	}
+	else if (combo_suspended(Rocket_Launcher) && last_pressed != 4){ //
+		combo_resume(Rocket_Launcher);
+	}	
+	//combo_run(Rocket_Launcher);
+} 
+
+if (get_keyboard(KEY_C))  {
+	if (!combo_suspended(Chaingun) && last_pressed != 5) {
+		combo_run(Chaingun);
+	}
+	else if (combo_suspended(Chaingun) && last_pressed != 5){ //
+		combo_resume(Chaingun);
+	}	
+	//combo_run(Chaingun);
+} 
+	
+if (get_keyboard(KEY_X))  {
+	if (!combo_suspended(Balista) && last_pressed != 6) {
+		combo_run(Balista);
+	}
+	else if (combo_suspended(Balista) && last_pressed != 6){ //
+		combo_resume(Balista);
+	}	
+	//combo_run(Balista);
+} 
+	
+if (get_keyboard(KEY_Z))  {
+	if (!combo_suspended(BFG) && last_pressed != 7) {
+		combo_run(BFG);
+	}
+	else if (combo_suspended(BFG) && last_pressed != 7){ //
+		combo_resume(BFG);
+	}
+	//combo_run(BFG);
+} 
+	
+}
+
+
+combo Combat_Shotgun {
+	last_pressed = 0;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, combat_Shotgun_X); //set angle here
+	set_val(PS4_RY, combat_Shotgun_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Combat_Shotgun);
+	
+}
+
+
+combo Heavy_Cannon {
+	last_pressed = 1;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, heavy_Cannon_X); //set angle here
+	set_val(PS4_RY, heavy_Cannon_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Heavy_Cannon);
+		
+}
+
+
+combo Super_Shotgun {
+	last_pressed = 2;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, super_Shotgun_X); //set angle here
+	set_val(PS4_RY, super_Shotgun_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Super_Shotgun);
+	
+}
+
+
+
+combo Plasma_Rifle {
+	last_pressed = 3;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, plasma_Rifle_X); //set angle here
+	set_val(PS4_RY, plasma_Rifle_Y); //set angle here	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Plasma_Rifle);
+	
+}
+
+
+
+combo Rocket_Launcher {
+	last_pressed = 4;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, rocket_Launcher_X); //set angle here
+	set_val(PS4_RY, rocket_Launcher_Y); //set angle here	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Rocket_Launcher);
+	
+}
+
+combo Chaingun {
+	last_pressed = 5;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, chaingun_X); //set angle here
+	set_val(PS4_RY, chaingun_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);
+	
+	combo_stop(Chaingun);
+		
+}
+
+
+
+combo Balista {
+	last_pressed = 6;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, balista_X); //set angle here
+	set_val(PS4_RY, balista_Y); //set angle here	
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(Balista);
+	
+}
+
+combo BFG {
+	last_pressed = 7;
+	set_val(PS4_R1, 100);
+	wait(weaponWheelPullUpTime);
+	set_val(PS4_R1, 100);
+	set_val(PS4_RX, bfg_X); //set angle here
+	set_val(PS4_RY, bfg_Y); //set angle here
+	wait(timeBeforeCenteringAnalog);
+	set_val(PS4_R1, 0);
+	set_val(PS4_RX, 0);
+	set_val(PS4_RY, 0);	
+	
+	combo_stop(BFG);
+	
+}
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

@@ -1,0 +1,79 @@
+/*
+This script seperates dodging from crouching in Star Wars Battlefront 2 - PS4 when playing on kbm.
+You will be able to hold down the dodge key for simpler dodging
+You can tap the crouch the key to crouch.
+It also allows you to weapon swap through scroll wheel up / down
+
+NOTE: It is important to unbind these keys in your M&K settings before running the script
+Otherwise you may get unintended behavior.
+
+//For some reason you can't use LEFT SHIFT OR LEFT CTRL as a parameter for getKeyboard
+//If there isn't a way to capture those keypresses, then separating crouch from dodge won't be possible unless
+// you settle for have the keys be something else, like number bindings or letters.
+// This has to do with the value that is returned by each key binding. Maybe there is some kind of workaround to this? Not sure.
+// You need to use the get_modifiers function
+*/
+
+
+define timeBetweenDodgePresses = 80;
+define timeReqToCrouch = 200;
+
+
+
+main {
+	
+
+
+//this will trigger the crouch toggle as a separate button
+if(get_modifiers(MOD_LCTRL)){
+	combo_run(Crouch_Action);
+
+}
+
+
+	    
+
+
+//This gives the ability to dodge by press and holding a button.
+if(get_modifiers(MOD_LSHIFT)){	
+	combo_run(Dodge_Action);
+}
+
+
+
+
+}
+
+
+combo Crouch_Action {
+	set_val(PS4_CIRCLE, 100);
+	wait(timeReqToCrouch);
+	set_val(PS4_CIRCLE, 0);
+	combo_stop(Crouch_Action);
+	
+}
+
+
+
+
+combo Dodge_Action {
+    set_val(PS4_CIRCLE, 100);
+    wait(timeBetweenDodgePresses);
+    set_val(PS4_CIRCLE, 0);
+    wait(timeBetweenDodgePresses);
+	
+ 
+}
+
+
+
+	
+
+
+
+
+
+
+////////////////////////////////////////////////
+/////////////////END OF SCRIPT//////////////////
+////////////////////////////////////////////////

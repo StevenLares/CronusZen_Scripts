@@ -1,0 +1,26 @@
+// GPC Online Library
+// rgb_led_rainbow.gpc
+
+int CountLED;
+int RED1;
+int BLUE1;
+int GREEN1;
+int RED=1;
+int GREEN=1;
+int BLUE=1;
+main {
+	if(RED==255){RED1=FALSE;}
+	if(GREEN==255){GREEN1=FALSE;}
+	if(BLUE==255){BLUE1=FALSE;}
+	if(RED==1){RED1=TRUE;}
+	if(GREEN==1){GREEN1=TRUE;}
+	if(BLUE==1){BLUE1=TRUE;}CountLED = random(1,300);
+	if(((CountLED)>=1) && (CountLED)<=100)
+   {if(RED1==TRUE){RED+=1;set_ps4_lbar(RED,GREEN,BLUE);CountLED = random(1,300);}
+    if(RED1==FALSE){RED-=1;set_ps4_lbar(RED,GREEN,BLUE);CountLED = random(1,300);}}
+	if(((CountLED)>=101) && (CountLED)<=200){
+	if(GREEN1==TRUE){GREEN+=1;set_ps4_lbar(RED,GREEN,BLUE);CountLED = random(1,300);}
+	if(GREEN1==FALSE){GREEN-=1;set_ps4_lbar(RED,GREEN,BLUE);CountLED = random(1,300);}}
+	if(((CountLED)>=201) && (CountLED)<=300){
+	if(BLUE1==TRUE){BLUE+=1;set_ps4_lbar(RED,GREEN,BLUE);CountLED = random(1,300);}
+	if(BLUE1==FALSE){BLUE-=1;set_ps4_lbar(RED,GREEN,BLUE);CountLED = random(1,300);}}}
